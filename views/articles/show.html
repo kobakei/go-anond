@@ -7,6 +7,19 @@
   <body>
     <h1>{{.Title}}</h1>
     <p>{{.Body}}</p>
+
+    <h3>Comments</h3>
+
+    <form action="/articles/{{.ID}}/comments" method="post">
+      <textarea cols="5" name="body"></textarea>
+      <input type="submit" value="Submit">
+    </form>
+
+    {{range .Comments}}
+      <hr>
+      <p>{{.Body}}</p>
+    {{end}}
+
   </body>
 </html>
 {{end}}

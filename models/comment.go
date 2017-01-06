@@ -7,6 +7,6 @@ import (
 
 type Comment struct {
 	gorm.Model
-	ArticleId uint
+	ArticleId uint `gorm:"index"`
 	Body      string
 }

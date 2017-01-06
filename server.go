@@ -11,6 +11,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 type Template struct {
@@ -51,6 +52,7 @@ func GetArticle(c echo.Context) error {
 	}
 	defer db.Close()
 	db.First(&article, id)
+  db.Model(&article).Related(&article.Comments)
 
 	return c.Render(http.StatusOK, "articles/show", article)
 }
@@ -68,6 +70,24 @@ func SaveArticle(c echo.Context) error {
 	db.Create(&article)
 
 	return c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/articles/%d", article.ID))
+}
+
+func SaveComment(c echo.Context) error {
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	if err != nil {
+		// TODO error
+	}
+  body := c.FormValue("body")
+	comment := models.Comment{ArticleId: uint(id), Body: body}
+
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.Create(&comment)
+
+	return c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/articles/%d", id))
 }
 
 func NotFound(c echo.Context) error {
@@ -104,10 +124,14 @@ func main() {
 
 	// ルーティング
 	e.GET("/", GetArticles)
+	// article
 	e.GET("/articles", GetArticles)
 	e.GET("/articles/new", NewArticle)
 	e.GET("/articles/:id", GetArticle)
 	e.POST("/articles", SaveArticle)
+	// comment
+	e.POST("/articles/:id/comments", SaveComment)
+	// error
 	e.GET("/*", NotFound)
 
 	// Middleware

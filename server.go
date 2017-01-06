@@ -41,7 +41,8 @@ func NewArticle(c echo.Context) error {
 
 func GetArticle(c echo.Context) error {
 
-	id := c.QueryParam("id")
+	id := c.Param("id")
+  fmt.Println("ID: ", id)
 
 	var article models.Article
 	db, err := gorm.Open("sqlite3", "test.db")
@@ -55,8 +56,9 @@ func GetArticle(c echo.Context) error {
 }
 
 func SaveArticle(c echo.Context) error {
-	// TODO
-	article := models.Article{Title: "New title", Body: "New body"}
+	title := c.FormValue("title")
+  body := c.FormValue("body")
+	article := models.Article{Title: title, Body: body}
 
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
@@ -65,7 +67,7 @@ func SaveArticle(c echo.Context) error {
 	defer db.Close()
 	db.Create(&article)
 
-	return c.Redirect(http.StatusMovedPermanently, "/articles/123")
+	return c.Redirect(http.StatusMovedPermanently, fmt.Sprintf("/articles/%d", article.ID))
 }
 
 func NotFound(c echo.Context) error {

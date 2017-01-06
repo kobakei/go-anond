@@ -1,8 +1,10 @@
 package main
 
 import (
+  "fmt"
 	"github.com/labstack/echo"
   "github.com/labstack/echo/middleware"
+  "github.com/labstack/gommon/log"
 	"html/template"
 	"io"
 	"net/http"
@@ -27,7 +29,7 @@ func GetArticles(c echo.Context) error {
 }
 
 func NewArticle(c echo.Context) error {
-	return c.Render(http.StatusOK, "articles/new", "World")
+	return c.Render(http.StatusOK, "articles/new", nil)
 }
 
 func GetArticle(c echo.Context) error {
@@ -37,11 +39,16 @@ func GetArticle(c echo.Context) error {
 }
 
 func SaveArticle(c echo.Context) error {
-	return c.Render(http.StatusOK, "articles/create", "World")
+  fmt.Println("Save")
+	return c.Redirect(http.StatusMovedPermanently, "/articles/123")
 }
 
 func main() {
 	e := echo.New()
+
+  // ログの設定
+  e.Debug = true
+  e.Logger.SetLevel(log.DEBUG)
 
 	// テンプレートの設定
 	t := &Template{

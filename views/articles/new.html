@@ -1,3 +1,16 @@
 {{define "articles/new"}}
-Hello, New!
+<html>
+  <head>
+    <title>New article | go-anond</title>
+  </head>
+
+  <body>
+    <h1>New article</h1>
+
+    <form action="/articles" method="post">
+      <input type="submit" value="Submit" />
+    </form>
+
+  </body>
+</html>
 {{end}}

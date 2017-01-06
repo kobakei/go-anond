@@ -10,7 +10,7 @@
     {{/* すべての記事のタイトルとサマリーを表示 */}}
     {{range .}}
       <h3>{{.Title}}</h3>
-      <p>{{.Body}}</p>
+      <p>{{.Summary}}</p>
       <p><a href="/articles/{{.ID}}">Show</a></p>
     {{end}}
 

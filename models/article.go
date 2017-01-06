@@ -12,3 +12,8 @@ type Article struct {
 
 	Comments []Comment
 }
+
+func (a *Article) Summary() string {
+  runes := []rune(a.Body)
+	return string(runes[0:10])
+}

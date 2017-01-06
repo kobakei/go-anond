@@ -9,10 +9,10 @@ Goで作る匿名ダイアリーみたいなアプリです。Goの練習用に�
 
 ## 各種ツール
 
-- パッケージ管理: Glide
-- フレームワーク: Echo
-- データベース: SQLite
-- ORM: gorm
+- パッケージ管理: [Glide](https://glide.sh/)
+- フレームワーク: [Echo](https://echo.labstack.com/)
+- データベース: SQLite3
+- ORM: [gorm](http://jinzhu.me/gorm/)
 
 ## コマンド
 
@@ -20,6 +20,13 @@ Goで作る匿名ダイアリーみたいなアプリです。Goの練習用に�
 $ go run server.go
 
 $ go test $(glide nv)
+```
+
+## Herokuへのデプロイ
+
+```sh
+$ heroku create
+$ git push heroku master
 ```
 
 ## ライセンス

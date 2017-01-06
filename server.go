@@ -43,6 +43,10 @@ func SaveArticle(c echo.Context) error {
 	return c.Redirect(http.StatusMovedPermanently, "/articles/123")
 }
 
+func NotFound(c echo.Context) error {
+  return c.Render(http.StatusOK, "errors/404", nil)
+}
+
 func main() {
 	e := echo.New()
 
@@ -62,6 +66,7 @@ func main() {
 	e.GET("/articles/new", NewArticle)
 	e.GET("/articles/:id", GetArticle)
 	e.POST("/articles", SaveArticle)
+  e.GET("/*", NotFound)
 
   // Middleware
 	e.Use(middleware.Logger())

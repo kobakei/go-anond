@@ -1,17 +1,31 @@
-hash: 33ce3ba27623bf77d5d57a8b30047eee72f7fe78cf6db3c64679d1f668f65aeb
-updated: 2017-01-06T18:54:51.304016768+09:00
+hash: f8d8e19a890b89940a180202d79d0ac30a0f8295f13fae265e7a9fab1191c26b
+updated: 2017-01-06T23:23:22.725920381+09:00
 imports:
+- name: github.com/dgrijalva/jwt-go
+  version: a601269ab70c205d26370c16f7c81e9017c14e04
+- name: github.com/jinzhu/gorm
+  version: 373207d546d4bf4a971d688b63ed787528548d6e
+  subpackages:
+  - dialects/sqlite
+- name: github.com/jinzhu/inflection
+  version: 1c35d901db3da928c72a72d8458480cc9ade058f
 - name: github.com/labstack/echo
   version: 8d504c1b699c757b267255c53b3e5219f9974abc
+  subpackages:
+  - middleware
 - name: github.com/labstack/gommon
   version: c8c07aa087422c146b86d2f79556b450a8e630a1
   subpackages:
+  - bytes
   - color
   - log
+  - random
 - name: github.com/mattn/go-colorable
   version: d228849504861217f796da67fae4f6e347643f15
 - name: github.com/mattn/go-isatty
   version: 30a891c33c7cde7b02a981314b4228ec99380cca
+- name: github.com/mattn/go-sqlite3
+  version: 6f2749a3ca9b233ffb8749ef9684f7f4d88cee7a
 - name: github.com/tylerb/graceful
   version: d37e108c89765a8e307f15b8fb2ecd10575da6bb
 - name: github.com/valyala/fasttemplate

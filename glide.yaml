@@ -2,3 +2,5 @@ package: github.com/kobakei/go-anond
 import:
 - package: github.com/labstack/echo
   version: v3.0.3
+- package: github.com/jinzhu/gorm
+- package: github.com/mattn/go-sqlite3

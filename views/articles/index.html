@@ -1,3 +1,19 @@
 {{define "articles/index"}}
-Hello, Index!
+<html>
+  <head>
+    <title>go-anond</title>
+  </head>
+
+  <body>
+    <h1>go-anond</h1>
+
+    {{/* すべての記事のタイトルとサマリーを表示 */}}
+    {{range .}}
+      <h3>{{.Title}}</h3>
+      <p>{{.Body}}</p>
+      <p><a href="/articles/{{.Title}}">Show</a></p>
+    {{end}}
+
+  </body>
+</html>
 {{end}}

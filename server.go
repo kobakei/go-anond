@@ -1,16 +1,16 @@
 package main
 
 import (
-  "fmt"
+	"fmt"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/kobakei/go-anond/models"
 	"github.com/labstack/echo"
-  "github.com/labstack/echo/middleware"
-  "github.com/labstack/gommon/log"
+	"github.com/labstack/echo/middleware"
+	"github.com/labstack/gommon/log"
 	"html/template"
 	"io"
 	"net/http"
-  "github.com/kobakei/go-anond/models"
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 type Template struct {
@@ -22,11 +22,16 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func GetArticles(c echo.Context) error {
-  // TODO
-  articles := []models.Article{}
-  articles = append(articles, models.Article{Title: "PPAP", Body: "Pen Pineapple Apple Pen"})
-  articles = append(articles, models.Article{Title: "PPAP", Body: "Pen Pineapple Apple Pen"})
-  articles = append(articles, models.Article{Title: "PPAP", Body: "Pen Pineapple Apple Pen"})
+
+	articles := []models.Article{}
+
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.Find(&articles)
+
 	return c.Render(http.StatusOK, "articles/index", articles)
 }
 
@@ -35,39 +40,59 @@ func NewArticle(c echo.Context) error {
 }
 
 func GetArticle(c echo.Context) error {
-  // TODO
-	article := models.Article{Title: "PPAP", Body: "Pen Pineapple Apple Pen"}
+
+	id := c.QueryParam("id")
+
+	var article models.Article
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.First(&article, id)
+
 	return c.Render(http.StatusOK, "articles/show", article)
 }
 
 func SaveArticle(c echo.Context) error {
-  fmt.Println("Save")
+	// TODO
+	article := models.Article{Title: "New title", Body: "New body"}
+
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.Create(&article)
+
 	return c.Redirect(http.StatusMovedPermanently, "/articles/123")
 }
 
 func NotFound(c echo.Context) error {
-  return c.Render(http.StatusOK, "errors/404", nil)
+	return c.Render(http.StatusNotFound, "errors/404", nil)
 }
 
 // データベースを初期化する
 func InitDb() {
-  db, err := gorm.Open("sqlite3", "test.db")
-  if err != nil {
-    panic("failed to connect database")
-  }
-  defer db.Close()
-  db.AutoMigrate(&models.Article{})
+	db, err := gorm.Open("sqlite3", "test.db")
+	if err != nil {
+		panic("failed to connect database")
+	}
+	defer db.Close()
+	db.AutoMigrate(&models.Article{}, &models.Comment{})
 }
 
 func main() {
 
-  InitDb()
+	fmt.Println("Init DB...")
+	InitDb()
 
+	fmt.Println("Init Echo...")
 	e := echo.New()
 
-  // ログの設定
-  e.Debug = true
-  e.Logger.SetLevel(log.DEBUG)
+	// ログの設定
+	e.Debug = true
+	e.Logger.SetLevel(log.DEBUG)
 
 	// テンプレートの設定
 	t := &Template{
@@ -81,9 +106,9 @@ func main() {
 	e.GET("/articles/new", NewArticle)
 	e.GET("/articles/:id", GetArticle)
 	e.POST("/articles", SaveArticle)
-  e.GET("/*", NotFound)
+	e.GET("/*", NotFound)
 
-  // Middleware
+	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 

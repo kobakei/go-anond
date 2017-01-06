@@ -24,7 +24,7 @@ func NewArticle(c echo.Context) error {
 }
 
 func GetArticle(c echo.Context) error {
-	return c.Render(http.StatusOK, "articles/show", "World")
+	return c.Render(http.StatusOK, "articles/show", map[string]string{"hoge": "fuga"})
 }
 
 func SaveArticle(c echo.Context) error {

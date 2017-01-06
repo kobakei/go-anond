@@ -11,6 +11,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+  "os"
 	"strconv"
 )
 
@@ -139,5 +140,9 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// 起動
-	e.Logger.Fatal(e.Start(":1323"))
+  port :=  os.Getenv("PORT")
+  if port == "" {
+    port = "1323"
+  }
+	e.Logger.Fatal(e.Start(":" + port))
 }

@@ -11,7 +11,7 @@ import (
 	"html/template"
 	"io"
 	"net/http"
-  "os"
+	"os"
 	"strconv"
 )
 
@@ -44,7 +44,7 @@ func NewArticle(c echo.Context) error {
 func GetArticle(c echo.Context) error {
 
 	id := c.Param("id")
-  fmt.Println("ID: ", id)
+	fmt.Println("ID: ", id)
 
 	var article models.Article
 	db, err := gorm.Open("sqlite3", "test.db")
@@ -53,14 +53,14 @@ func GetArticle(c echo.Context) error {
 	}
 	defer db.Close()
 	db.First(&article, id)
-  db.Model(&article).Related(&article.Comments)
+	db.Model(&article).Related(&article.Comments)
 
 	return c.Render(http.StatusOK, "articles/show", article)
 }
 
 func SaveArticle(c echo.Context) error {
 	title := c.FormValue("title")
-  body := c.FormValue("body")
+	body := c.FormValue("body")
 	article := models.Article{Title: title, Body: body}
 
 	db, err := gorm.Open("sqlite3", "test.db")
@@ -78,7 +78,7 @@ func SaveComment(c echo.Context) error {
 	if err != nil {
 		// TODO error
 	}
-  body := c.FormValue("body")
+	body := c.FormValue("body")
 	comment := models.Comment{ArticleId: uint(id), Body: body}
 
 	db, err := gorm.Open("sqlite3", "test.db")
@@ -140,9 +140,9 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// 起動
-  port :=  os.Getenv("PORT")
-  if port == "" {
-    port = "1323"
-  }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "1323"
+	}
 	e.Logger.Fatal(e.Start(":" + port))
 }

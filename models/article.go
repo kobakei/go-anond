@@ -14,6 +14,6 @@ type Article struct {
 }
 
 func (a *Article) Summary() string {
-  runes := []rune(a.Body)
+	runes := []rune(a.Body)
 	return string(runes[0:10])
 }

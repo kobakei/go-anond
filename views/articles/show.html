@@ -1,10 +1,8 @@
 {{define "articles/show"}}
-<html>
-  <head>
-    <title>{{.Title}} | go-anond</title>
-  </head>
 
-  <body>
+{{$title := printf "%s | go-anond" .Title}}
+{{template "common/header" $title}}
+
     <h1>{{.Title}}</h1>
     <p>{{.Body}}</p>
 

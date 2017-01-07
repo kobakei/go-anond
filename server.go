@@ -117,6 +117,9 @@ func main() {
 	e.Debug = true
 	e.Logger.SetLevel(log.DEBUG)
 
+  // アセット
+  e.Static("/static", "assets")
+
 	// テンプレートの設定
 	t := &Template{
 		templates: template.Must(template.ParseGlob("views/**/*.html")),

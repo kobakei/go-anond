@@ -5,7 +5,9 @@
   </head>
 
   <body>
-    <h1>go-anond</h1>
+    <h1><img src="/static/img/logo.png" /></h1>
+
+    <p><a href="/articles/new">New article</a></p>
 
     {{/* すべての記事のタイトルとサマリーを表示 */}}
     {{range .}}
@@ -14,6 +16,6 @@
       <p><a href="/articles/{{.ID}}">Show</a></p>
     {{end}}
 
-  </body>
-</html>
+{{template "common/footer"}}
+
 {{end}}
